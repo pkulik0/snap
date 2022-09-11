@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Link {
 
     @Id
-    public String shortened;
+    String shortened;
 
-    public String url;
+    String url;
 
     public void setUrl(String url) {
         this.url = url;
