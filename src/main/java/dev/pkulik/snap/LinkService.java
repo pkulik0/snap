@@ -20,6 +20,21 @@ public class LinkService {
         return linkRepository.findLinkByShortened(shortened);
     }
 
+    public Optional<Link> deleteByShortened(String shortened) {
+        return linkRepository.deleteLinkByShortened(shortened);
+    }
+
+    public Optional<Link> updateByShortened(String shortened, String newUrl) {
+        Optional<Link> optionalLink =  linkRepository.findLinkByShortened(shortened);
+        if(optionalLink.isEmpty()) return Optional.empty();
+
+        Link link = optionalLink.get();
+        link.setUrl(newUrl);
+
+        linkRepository.save(link);
+        return Optional.of(link);
+    }
+
     public Optional<Link> createLink(String url) {
         if(!url.startsWith("https://") && !url.startsWith("http://")) {
             return Optional.empty();
@@ -42,7 +57,7 @@ public class LinkService {
             shortened = builder.toString();
         } while(linkRepository.findLinkByShortened(shortened).isPresent());
 
-        Link link = linkRepository.insert(new Link(url, shortened));
+        Link link = linkRepository.insert(new Link(shortened, url));
         return Optional.of(link);
     }
 }

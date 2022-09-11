@@ -7,5 +7,7 @@ import java.util.Optional;
 public interface LinkRepository extends MongoRepository<Link, String> {
     Optional<Link> findLinkByShortened(String shortened);
 
+    Optional<Link> deleteLinkByShortened(String shortened);
+
     Optional<Link> findLinkByUrl(String url);
 }

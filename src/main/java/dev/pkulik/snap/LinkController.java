@@ -36,4 +36,14 @@ public class LinkController {
             response.setStatus(404);
         }
     }
+
+    @DeleteMapping("/{shortened}")
+    public Optional<Link> deleteLink(@PathVariable String shortened) {
+        return linkService.deleteByShortened(shortened);
+    }
+
+    @PatchMapping("/{shortened}")
+    public Optional<Link> updateLink(@PathVariable String shortened, @RequestBody String newUrl) {
+        return linkService.updateByShortened(shortened, newUrl);
+    }
 }

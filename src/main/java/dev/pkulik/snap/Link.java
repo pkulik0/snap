@@ -9,8 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "links")
 public class Link {
+
     @Id
+    public String shortened;
+
     public String url;
 
-    public String shortened;
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
