@@ -6,12 +6,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document
 @AllArgsConstructor
+@Document(collection = "links")
 public class Link {
-
     @Id
-    public String id;
-    public String fullUrl;
-    public String shortUrl;
+    public String url;
+
+    public String shortened;
 }

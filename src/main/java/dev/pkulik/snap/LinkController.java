@@ -2,13 +2,11 @@ package dev.pkulik.snap;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -17,17 +15,25 @@ public class LinkController {
     @Autowired
     private final LinkService linkService;
 
-    @GetMapping
-    public List<Link> getAllLinks() {
-        return null;
+    @PostMapping
+    public Optional<Link> createLink(@RequestBody String url) {
+        return linkService.createLink(url);
     }
 
-    @GetMapping("/{shortUrl}")
-    public void getLink(HttpServletResponse response, @PathVariable String shortUrl) {
-        System.out.println("Link: " + shortUrl);
-        response.setHeader("Location", "https://google.com");
-        response.setStatus(302);
+    @GetMapping
+    public List<Link> getAllLinks() {
+        return linkService.getAllLinks();
+    }
 
-//        response.setStatus(404);
+    @GetMapping("/{shortened}")
+    public void getLink(HttpServletResponse response, @PathVariable String shortened) {
+        Optional<Link> link = linkService.getByShortened(shortened);
+
+        if (link.isPresent()) {
+            response.setHeader("Location", link.get().url);
+            response.setStatus(302);
+        } else {
+            response.setStatus(404);
+        }
     }
 }
