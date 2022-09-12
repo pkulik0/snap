@@ -1,4 +1,4 @@
-package dev.pkulik.snap;
+package dev.pkulik.snap.link;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.Random;
 @AllArgsConstructor
 @Service
 public class LinkService {
-    final LinkRepository linkRepository;
+    private final LinkRepository linkRepository;
 
     public List<Link> getAllLinks() {
         return linkRepository.findAll();

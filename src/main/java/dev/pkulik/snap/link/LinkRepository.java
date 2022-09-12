@@ -1,4 +1,4 @@
-package dev.pkulik.snap;
+package dev.pkulik.snap.link;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

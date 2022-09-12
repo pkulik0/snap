@@ -1,4 +1,4 @@
-package dev.pkulik.snap;
+package dev.pkulik.snap.link;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Link {
 
     @Id
-    String shortened;
+    private String shortened;
 
-    String url;
+    private String url;
 
     public void setUrl(String url) {
         this.url = url;
