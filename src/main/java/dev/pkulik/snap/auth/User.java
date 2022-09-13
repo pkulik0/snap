@@ -1,12 +1,18 @@
 package dev.pkulik.snap.auth;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @Document(collection = "users")
+@Getter @Setter
 public class User {
 
     @Transient
@@ -15,21 +21,14 @@ public class User {
     @Id
     private Long id;
 
+    @NotNull
+    @Indexed(unique = true)
     private String username;
+
+    @NotNull
+    @Indexed(unique = true)
     private String email;
 
+    @NotNull
     private String password;
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

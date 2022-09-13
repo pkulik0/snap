@@ -33,8 +33,7 @@ public class SecurityFilter extends UsernamePasswordAuthenticationFilter {
         User user = (User) authResult.getPrincipal();
 
         String secret = System.getenv("SNAP_SECRET");
-        System.out.println("SECRET ---> " + secret);
-        Algorithm algorithm = Algorithm.HMAC256(secret);
+        Algorithm algorithm = Algorithm.HMAC512(secret);
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())

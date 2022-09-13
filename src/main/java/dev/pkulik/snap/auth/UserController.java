@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    ResponseEntity<User> createUser(@RequestBody  User user) {
+    ResponseEntity<User> createUser(@RequestBody User user) {
         Optional<User> optionalUser = userService.createUser(user);
 
         if (optionalUser.isEmpty())
