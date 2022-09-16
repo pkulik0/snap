@@ -1,4 +1,4 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.other;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

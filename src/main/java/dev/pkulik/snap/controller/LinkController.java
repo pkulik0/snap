@@ -1,5 +1,7 @@
-package dev.pkulik.snap.link;
+package dev.pkulik.snap.controller;
 
+import dev.pkulik.snap.service.LinkService;
+import dev.pkulik.snap.model.Link;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

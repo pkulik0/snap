@@ -1,5 +1,6 @@
-package dev.pkulik.snap.link;
+package dev.pkulik.snap.repository;
 
+import dev.pkulik.snap.model.Link;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

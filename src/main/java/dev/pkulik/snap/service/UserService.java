@@ -1,6 +1,7 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.service;
 
-import dev.pkulik.snap.generator.GeneratorService;
+import dev.pkulik.snap.model.User;
+import dev.pkulik.snap.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Transactional
 public class UserService implements UserDetailsService {
     private final GeneratorService generatorService;
-    private final  UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -32,7 +33,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
-    Optional<User> createUser(User user) {
+    public Optional<User> createUser(User user) {
         if(!StringUtils.hasText(user.getUsername()) || !StringUtils.hasText(user.getEmail()))
             return Optional.empty();
 

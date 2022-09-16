@@ -1,4 +1,4 @@
-package dev.pkulik.snap.link;
+package dev.pkulik.snap.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

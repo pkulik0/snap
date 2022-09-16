@@ -1,4 +1,4 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.model;
 
 import lombok.Data;
 import lombok.Getter;

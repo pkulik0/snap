@@ -1,5 +1,7 @@
-package dev.pkulik.snap.link;
+package dev.pkulik.snap.service;
 
+import dev.pkulik.snap.model.Link;
+import dev.pkulik.snap.repository.LinkRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

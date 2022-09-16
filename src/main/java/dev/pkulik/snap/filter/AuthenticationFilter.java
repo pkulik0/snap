@@ -1,5 +1,6 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.filter;
 
+import dev.pkulik.snap.other.JWTHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

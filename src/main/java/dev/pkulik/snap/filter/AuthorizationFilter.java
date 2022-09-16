@@ -1,5 +1,6 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.filter;
 
+import dev.pkulik.snap.other.JWTHelper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

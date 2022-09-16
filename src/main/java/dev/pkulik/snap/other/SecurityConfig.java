@@ -1,5 +1,7 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.other;
 
+import dev.pkulik.snap.filter.AuthenticationFilter;
+import dev.pkulik.snap.filter.AuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

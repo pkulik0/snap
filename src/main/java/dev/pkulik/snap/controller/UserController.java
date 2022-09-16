@@ -1,5 +1,7 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.controller;
 
+import dev.pkulik.snap.service.UserService;
+import dev.pkulik.snap.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

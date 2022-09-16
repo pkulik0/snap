@@ -1,5 +1,6 @@
-package dev.pkulik.snap.auth;
+package dev.pkulik.snap.repository;
 
+import dev.pkulik.snap.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
