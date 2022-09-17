@@ -27,7 +27,7 @@ public class LinkService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Link link = optionalLink.get();
 
-        if(!link.isPublic() && link.getOwnerName().equals(username))
+        if(!link.isPublic() && !link.getOwnerName().equals(username))
             return Optional.empty();
 
         return optionalLink;
@@ -38,13 +38,14 @@ public class LinkService {
         linkRepository.deleteLinkByShortenedAndOwnerName(shortened, username);
     }
 
-    public Optional<Link> updateByShortened(String shortened, String newUrl) {
+    public Optional<Link> updateByShortened(String shortened, Link newLink) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Link> optionalLink =  linkRepository.findLinkByShortenedAndOwnerName(shortened, username);
         if(optionalLink.isEmpty()) return Optional.empty();
 
         Link link = optionalLink.get();
-        link.setUrl(newUrl);
+        link.setUrl(newLink.getUrl());
+        link.setPublic(newLink.isPublic());
 
         linkRepository.save(link);
         return Optional.of(link);

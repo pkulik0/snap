@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @Document(collection = "users")
@@ -21,6 +22,7 @@ public class User {
     private Long id;
 
     @NotNull
+    @Size(min = 4, max = 20)
     @Indexed(unique = true)
     private String username;
 

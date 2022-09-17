@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -34,9 +33,6 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> createUser(User user) {
-        if(!StringUtils.hasText(user.getUsername()) || !StringUtils.hasText(user.getEmail()))
-            return Optional.empty();
-
         if(user.getPassword().length() < minPasswordLength)
             return Optional.empty();
 
