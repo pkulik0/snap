@@ -45,6 +45,8 @@ Example response:
 }
 ```
 
+The obtained token needs to be included in the ```Authorization: Bearer <token>``` header to access all following endpoints.
+
 ## Links
 
 ### /api/links - **GET** | **POST**
