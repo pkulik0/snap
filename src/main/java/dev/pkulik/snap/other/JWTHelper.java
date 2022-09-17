@@ -10,16 +10,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class JWTHelper {
-    private static final String issuer = "Snap";
-
     private static final Algorithm algorithm = Algorithm.HMAC512(System.getenv("SNAP_SECRET"));
     private static final JWTVerifier verifier = JWT.require(algorithm).build();
+    private static final String issuer = "Snap";
 
-    public static String createToken(org.springframework.security.core.userdetails.User user) {
+    public static String createToken(org.springframework.security.core.userdetails.User user, long expiresAt) {
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuer(issuer)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
+                .withExpiresAt(new Date(expiresAt))
                 .sign(algorithm);
     }
 

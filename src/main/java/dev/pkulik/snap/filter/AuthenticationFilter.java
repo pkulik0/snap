@@ -1,5 +1,6 @@
 package dev.pkulik.snap.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.pkulik.snap.other.JWTHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +14,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.util.MimeTypeUtils;
 
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -32,12 +36,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         User user = (User) authResult.getPrincipal();
 
-        String token = JWTHelper.createToken(user);
+        Map<String, String> responseBody = new HashMap<>();
+        long expiresAt = System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7;
+        responseBody.put("token", JWTHelper.createToken(user, expiresAt));
+        responseBody.put("expiresAt", String.valueOf(expiresAt));
 
-        PrintWriter writer = response.getWriter();
-        writer.write(token);
-        writer.flush();
-
+        response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
+
+        new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
     }
 }

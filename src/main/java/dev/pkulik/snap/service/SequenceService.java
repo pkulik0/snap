@@ -9,20 +9,19 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class GeneratorService {
-
+public class SequenceService {
     private final SequenceRepository sequenceRepository;
 
     public long getNextId(String sequenceName) {
-        Optional<Sequence> optionalIdSequence = sequenceRepository.findById(sequenceName);
+        Optional<Sequence> optionalSequence = sequenceRepository.findById(sequenceName);
 
-        if(optionalIdSequence.isEmpty()) {
+        if(optionalSequence.isEmpty()) {
             long id = 0;
             sequenceRepository.insert(new Sequence(sequenceName, id));
             return id;
         }
 
-        Sequence sequence = optionalIdSequence.get();
+        Sequence sequence = optionalSequence.get();
         sequence.increment();
         sequenceRepository.save(sequence);
 

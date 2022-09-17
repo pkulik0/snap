@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @Document(collection = "users")
 @Getter @Setter
 public class User {
-
     @Transient
     public static final String SEQUENCE_NAME = "users_sequence";
 

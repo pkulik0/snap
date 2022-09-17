@@ -3,24 +3,22 @@ package dev.pkulik.snap.controller;
 import dev.pkulik.snap.service.LinkService;
 import dev.pkulik.snap.model.Link;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "api")
 public class LinkController {
-    @Autowired
     private final LinkService linkService;
 
     @PostMapping
-    public ResponseEntity<Link> createLink(@RequestBody String url) {
-        Optional<Link> optionalLink = linkService.createLink(url);
+    public ResponseEntity<Link> createLink(@RequestBody Link url) {
+        Optional<Link> optionalLink = linkService.create(url);
 
         if (optionalLink.isEmpty())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -29,8 +27,8 @@ public class LinkController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Link>> getAllLinks() {
-        return ResponseEntity.ok(linkService.getAllLinks());
+    public ResponseEntity<Collection<Link>> getUsersLinks() {
+        return ResponseEntity.ok(linkService.getOwned());
     }
 
     @GetMapping("/{shortened}")

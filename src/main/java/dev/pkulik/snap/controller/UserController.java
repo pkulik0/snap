@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/users")
+    @PostMapping("/auth/register")
     ResponseEntity<User> createUser(@RequestBody User user) {
         Optional<User> optionalUser = userService.createUser(user);
 

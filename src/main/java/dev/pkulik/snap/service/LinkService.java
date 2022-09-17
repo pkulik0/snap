@@ -3,9 +3,10 @@ package dev.pkulik.snap.service;
 import dev.pkulik.snap.model.Link;
 import dev.pkulik.snap.repository.LinkRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
 
@@ -14,20 +15,32 @@ import java.util.Random;
 public class LinkService {
     private final LinkRepository linkRepository;
 
-    public List<Link> getAllLinks() {
-        return linkRepository.findAll();
+    public Collection<Link> getOwned() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return linkRepository.findLinksByOwnerName(username);
     }
 
     public Optional<Link> getByShortened(String shortened) {
-        return linkRepository.findLinkByShortened(shortened);
+        Optional<Link> optionalLink = linkRepository.findLinkByShortened(shortened);
+        if(optionalLink.isEmpty()) return Optional.empty();
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Link link = optionalLink.get();
+
+        if(!link.isPublic() && link.getOwnerName().equals(username))
+            return Optional.empty();
+
+        return optionalLink;
     }
 
-    public Optional<Link> deleteByShortened(String shortened) {
-        return linkRepository.deleteLinkByShortened(shortened);
+    public void deleteByShortened(String shortened) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        linkRepository.deleteLinkByShortenedAndOwnerName(shortened, username);
     }
 
     public Optional<Link> updateByShortened(String shortened, String newUrl) {
-        Optional<Link> optionalLink =  linkRepository.findLinkByShortened(shortened);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Link> optionalLink =  linkRepository.findLinkByShortenedAndOwnerName(shortened, username);
         if(optionalLink.isEmpty()) return Optional.empty();
 
         Link link = optionalLink.get();
@@ -37,13 +50,13 @@ public class LinkService {
         return Optional.of(link);
     }
 
-    public Optional<Link> createLink(String url) {
-        if(!url.startsWith("https://") && !url.startsWith("http://")) {
-            return Optional.empty();
-        }
+    public Optional<Link> create(Link link) {
+        String url = link.getUrl();
 
-        if(!url.contains("."))
+        if(!url.startsWith("https://") && !url.startsWith("http://"))
             return Optional.empty();
+
+        if(!url.contains(".")) return Optional.empty();
 
         Optional<Link> existingLink = linkRepository.findLinkByUrl(url);
         if(existingLink.isPresent()) return existingLink;
@@ -52,14 +65,16 @@ public class LinkService {
         String shortened;
         do {
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < 8; i++) {
+            for(int i = 0; i < 5; i++) {
                 boolean upper = rand.nextBoolean();
                 builder.append((char) rand.nextInt(upper ? 'A' : 'a', upper ? 'Z' : 'z'));
             }
             shortened = builder.toString();
         } while(linkRepository.findLinkByShortened(shortened).isPresent());
 
-        Link link = linkRepository.insert(new Link(shortened, url));
-        return Optional.of(link);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Link dbEntry = linkRepository.insert(new Link(shortened, url, username, link.isPublic()));
+        return Optional.of(dbEntry);
     }
 }
